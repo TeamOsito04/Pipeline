@@ -1,0 +1,46 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main     # El pipeline se ejecutará cuando haya un push a la rama 'main'
+  pull_request:
+    branches:
+      - main     # También se ejecutará cuando se haga un pull request hacia 'main'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # El workflow se ejecuta en un contenedor de Ubuntu
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2  # Acción para hacer checkout del código
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2  # Configura Node.js en el entorno
+      with:
+        node-version: '16'  # Configura la versión de Node.js que necesitas
+
+    - name: Install dependencies
+      run: npm install  # Instala las dependencias
+
+    - name: Run tests
+      run: npm test  # Ejecuta las pruebas unitarias (Jest)
+
+    - name: Build project
+      run: npm run build  # Ejecuta el proceso de build (usualmente genera la carpeta 'dist' o 'build')
+
+  deploy:
+    runs-on: ubuntu-latest  # Se ejecuta en Ubuntu
+
+    needs: build  # Este job depende del job 'build', es decir, se ejecuta después de que las pruebas y la compilación sean exitosas
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2  # Acción para hacer checkout del código
+
+    - name: Deploy to GitHub Pages
+      uses: JamesIves/github-pages-deploy-action@v4
+      with:
+        branch: gh-pages  # Especifica la rama de despliegue (generalmente 'gh-pages')
+        folder: dist  # La carpeta que contiene los archivos generados (ej. 'dist' o 'build')

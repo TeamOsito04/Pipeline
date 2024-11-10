@@ -1,3 +1,4 @@
+### PIPELINE
 # Proyecto Web Simple
 Este proyecto es una aplicación web básica con estructura inicial, pruebas, pipeline de CI/CD en GitHub, y documentación.
 
@@ -23,5 +24,3 @@ Este proyecto es una aplicación web básica con estructura inicial, pruebas, pi
 3. **Cobertura de Código**:
    ```bash
    jest --coverage# Pipeline
-# Pipeline
-# Pipeline
